@@ -9,7 +9,10 @@
     "allow": [
       "Bash(fd:*)",
       "Bash(rg:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git worktree add:*)",
+      "Bash(git worktree list:*)",
+      "Bash(git worktree remove:*)"
     ],
     "deny": [
       "Bash(curl:*)",
@@ -27,6 +30,9 @@
       "Read(**/credentials/**)",
       "Read(**/.aws/**)",
       "Read(**/.ssh/**)"
+    ],
+    "additionalDirectories": [
+      "~/workspaces/worktrees"
     ]
   },
   "statusLine": {
