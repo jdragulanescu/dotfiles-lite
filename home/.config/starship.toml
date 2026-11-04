@@ -1,0 +1,432 @@
+# Starship Prompt Configuration
+# Nerd Font icons + Bracketed languages + Aura colors (matches the Ghostty theme)
+# Find symbols at: https://www.nerdfonts.com/cheat-sheet
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[╭─](comment)\
+$os\
+$username\
+$hostname\
+$directory\
+${custom.giturl}\
+$git_branch\
+${custom.worktree}\
+$git_status\
+$git_state\
+$git_metrics\
+$fill \
+$package\
+$nodejs\
+$bun\
+$deno\
+$python\
+$rust\
+$golang\
+$java\
+$kotlin\
+$lua\
+$ruby\
+$swift\
+$zig\
+$docker_context\
+$cmd_duration\
+$status\
+$battery\
+$time
+[╰─](comment)$character"""
+
+add_newline = true
+palette = "aura"
+
+# ============================================
+# PROMPT CHARACTER
+# ============================================
+[character]
+success_symbol = "[❯](bold green)"   # ❯ chevron
+error_symbol = "[❯](bold red)"     # ❯ chevron
+
+# ============================================
+# DIRECTORY & GIT
+# ============================================
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+style = "bold cyan"
+read_only = " 󰌾"
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+format = "[$symbol$branch]($style) "   # "on" comes from custom.giturl
+
+# Remote host icon before the branch: GitHub, GitLab, Bitbucket, else a git mark
+[custom.giturl]
+description = "Remote host icon"
+command = "case \"$(git ls-remote --get-url 2>/dev/null)\" in *github*) echo \"\uf09b\" ;; *gitlab*) echo \"\uf296\" ;; *bitbucket*) echo \"\uf171\" ;; *) echo \"\ue702\" ;; esac"
+when = true
+require_repo = true
+shell = ["sh"]
+format = "[on](comment) [$output](bold fg) "
+
+# ⛓ when inside a git worktree: its git dir differs from the shared one
+[custom.worktree]
+description = "Inside a git worktree"
+command = "echo ⛓"
+when = 'test "$(git rev-parse --path-format=absolute --git-dir --git-common-dir | uniq | wc -l)" -eq 2'
+require_repo = true
+shell = ["sh"]
+format = "[$output](bold green) "
+
+# One colour per kind of change, with counts: [!1+1?2⇡1]
+[git_status]
+format = "([\\[](comment)$all_status$ahead_behind[\\]](comment) )"
+style = "bold pink"
+up_to_date = ""
+staged = "[+$count](green)"
+modified = "[!$count](yellow)"
+untracked = "[?$count](pink)"
+deleted = "[✘$count](red)"
+renamed = "[»$count](purple)"
+conflicted = "[=$count](bold red)"
+stashed = "[≡$count](comment)"
+ahead = "[⇡$count](green)"
+behind = "[⇣$count](red)"
+diverged = "[⇕⇡$ahead_count⇣$behind_count](orange)"
+
+# Mid-rebase / merge / cherry-pick: (REBASING 2/5)
+[git_state]
+style = "bold orange"
+format = "[\\($state( $progress_current/$progress_total)\\)]($style) "
+
+# Lines added / removed in the working tree: +12 -3
+[git_metrics]
+disabled = false
+added_style = "green"
+deleted_style = "red"
+format = "([+$added]($added_style) )([-$deleted]($deleted_style) )"
+
+
+# ============================================
+# LANGUAGES - BRACKETED
+# ============================================
+[nodejs]
+symbol = " "      # node.js
+style = "bold green"
+format = "[$symbol($version)]($style) "
+
+[bun]
+symbol = " "      # bun
+style = "bold green"
+format = "[$symbol($version)]($style) "
+
+[deno]
+symbol = " "
+style = "bold green"
+format = "[$symbol($version)]($style) "
+
+[python]
+symbol = " "
+style = "bold yellow"
+format = "[$symbol($version)]($style) "
+
+[rust]
+symbol = "󱘗 "
+style = "bold orange"
+format = "[$symbol($version)]($style) "
+
+[golang]
+symbol = " "
+style = "bold cyan"
+format = "[$symbol($version)]($style) "
+
+[java]
+symbol = " "
+style = "bold red"
+format = "[$symbol($version)]($style) "
+
+[kotlin]
+symbol = " "
+style = "bold purple"
+format = "[$symbol($version)]($style) "
+
+[lua]
+symbol = " "
+style = "bold cyan"
+format = "[$symbol($version)]($style) "
+
+[ruby]
+symbol = " "
+style = "bold red"
+format = "[$symbol($version)]($style) "
+
+[swift]
+symbol = " "
+style = "bold orange"
+format = "[$symbol($version)]($style) "
+
+[zig]
+symbol = " "
+style = "bold orange"
+format = "[$symbol($version)]($style) "
+
+# ============================================
+# TOOLS
+# ============================================
+[docker_context]
+symbol = " "
+style = "bold cyan"
+format = "[\\[$symbol$context\\]]($style) "
+
+[aws]
+symbol = " "
+
+[gcloud]
+symbol = " "
+
+[package]
+symbol = "󰏗 "
+style = "bold orange"
+format = "[$symbol$version]($style) "
+
+# ============================================
+# INFO - NO BRACKETS
+# ============================================
+[cmd_duration]
+min_time = 2_000
+style = "bold yellow"
+format = "[ $duration]($style) "
+
+# Faint line joining the left and right halves of the first line
+[fill]
+symbol = "─"
+style = "current"
+
+[battery]
+full_symbol = " "
+charging_symbol = " "    # lightning
+discharging_symbol = " " # battery mid
+
+[[battery.display]]
+threshold = 20
+style = "bold red"
+
+[[battery.display]]
+threshold = 50
+style = "bold orange"
+
+[[battery.display]]
+threshold = 100
+style = "green"
+
+[time]
+disabled = false
+style = "comment"
+time_format = "%H:%M"
+format = "[ $time]($style)"   # clock
+
+# ============================================
+# SSH ONLY
+# ============================================
+[username]
+style_user = "bold purple"
+style_root = "bold red"
+show_always = false
+
+[hostname]
+style = "bold pink"
+ssh_symbol = " "
+ssh_only = true
+
+
+# ============================================
+# OTHER NERD FONT SYMBOLS (for future use)
+# ============================================
+
+[buf]
+symbol = " "
+
+[c]
+symbol = " "
+
+[cpp]
+symbol = " "
+
+[cmake]
+symbol = " "
+
+[conda]
+symbol = " "
+
+[crystal]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fennel]
+symbol = " "
+
+[fortran]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+[git_commit]
+tag_symbol = '  '
+
+[gradle]
+symbol = " "
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = " "
+
+[hg_branch]
+symbol = " "
+
+[julia]
+symbol = " "
+
+[memory_usage]
+symbol = "󰍛 "
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[ocaml]
+symbol = " "
+
+[os]
+disabled = false
+style = "bold fg"
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+AlmaLinux = " "
+Amazon = " "
+Android = " "
+AOSC = " "
+Arch = " "
+Artix = " "
+CachyOS = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Elementary = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Ios = "󰀷 "
+Kali = " "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+Nobara = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+RockyLinux = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Void = " "
+Windows = "󰍲 "
+Zorin = " "
+
+[perl]
+symbol = " "
+
+[php]
+symbol = " "
+
+[pijul_channel]
+symbol = " "
+
+[pixi]
+symbol = "󰏗 "
+
+[rlang]
+symbol = "󰟔 "
+
+[scala]
+symbol = " "
+
+# Exit code of a failed command, shown on the next prompt only
+[status]
+disabled = false
+style = "bold red"
+format = "[✘ $status]($style) "
+symbol = " "
+
+[xmake]
+symbol = " "
+
+
+# ============================================
+# PALETTES (switch with `palette = "..."` at the top)
+# ============================================
+
+# Tuned Ghostty Aura (~/.config/ghostty/themes/aura). No green in it:
+# "green" is the theme's deep cyan, so success and additions read cyan.
+[palettes.aura]
+bg = "#0a0810"
+current = "#231d33"
+fg = "#f2f0f7"
+comment = "#6f6889"
+cyan = "#5ce4ff"
+green = "#22d3ff"
+orange = "#ffab4d"
+pink = "#ff7bd5"
+purple = "#bfa0ff"
+red = "#ff5f6e"
+yellow = "#ffc987"
+
+[palettes.dracula]
+bg = "#282a36"
+current = "#44475a"
+fg = "#f8f8f2"
+comment = "#6272a4"
+cyan = "#8be9fd"
+green = "#50fa7b"
+orange = "#ffb86c"
+pink = "#ff79c6"
+purple = "#bd93f9"
+red = "#ff5555"
+yellow = "#f1fa8c"

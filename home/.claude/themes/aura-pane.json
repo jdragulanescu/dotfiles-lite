@@ -1,0 +1,7 @@
+{
+  "name": "Dark, Aura pane",
+  "base": "dark",
+  "overrides": {
+    "composerSidebarBackground": "#0a0810"
+  }
+}

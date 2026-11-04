@@ -1,0 +1,38 @@
+# Aura (tuned) — light-purple lead, blue-leaning cyan ramp, near-black violet base
+#
+# Diverges from https://ghostty-style.vercel.app/config/aura in four ways:
+#   - Background darkened (#15141b -> #0a0810) to maximise contrast headroom.
+#   - No greens at all: the green slot carries a deep bright cyan and the cyan
+#     slot (eza's symlink/alias color) a lighter electric cyan. They separate by
+#     lightness rather than hue, so the whole cool half reads cyan.
+#   - Purple (slot 4, what eza paints directories) lightened to #bfa0ff and the
+#     magenta slot moved to hot pink, so the two no longer read as one hue.
+#   - Stock Aura reuses purple and mint across six slots; every hue here is distinct.
+# Every normal color clears 6.8:1 on the background; most clear 10:1.
+
+background = #0a0810
+foreground = #f2f0f7
+selection-background = #3d2f66
+selection-foreground = #ffffff
+cursor-color = #bfa0ff
+cursor-text = #0a0810
+
+# Normal
+palette = 0=#17141f
+palette = 1=#ff5f6e
+palette = 2=#22d3ff
+palette = 3=#ffab4d
+palette = 4=#bfa0ff
+palette = 5=#ff7bd5
+palette = 6=#5ce4ff
+palette = 7=#f2f0f7
+
+# Bright
+palette = 8=#6f6889
+palette = 9=#ff8a95
+palette = 10=#6ee4ff
+palette = 11=#ffc987
+palette = 12=#d6c0ff
+palette = 13=#ffa8e2
+palette = 14=#a5f0ff
+palette = 15=#ffffff

@@ -1,0 +1,38 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "includeCoAuthoredBy": false,
+  "cleanupPeriodDays": 90,
+  "permissions": {
+    "allow": [
+      "Bash(fd:*)",
+      "Bash(rg:*)",
+      "Bash(ls:*)"
+    ],
+    "deny": [
+      "Bash(curl:*)",
+      "Bash(/usr/bin/curl:*)",
+      "Bash(/opt/homebrew/bin/curl:*)",
+      "Bash(wget:*)",
+      "Bash(/opt/homebrew/bin/wget:*)",
+      "Bash(nc:*)",
+      "Bash(/usr/bin/nc:*)",
+      "Read(**/.env*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/*credential*)",
+      "Read(**/secrets/**)",
+      "Read(**/credentials/**)",
+      "Read(**/.aws/**)",
+      "Read(**/.ssh/**)"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "$HOME/.claude/scripts/statusline.sh",
+    "refreshInterval": 30
+  },
+  "theme": "custom:aura-pane"
+}

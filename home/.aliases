@@ -1,0 +1,130 @@
+# ============================================
+# NAVIGATION
+# ============================================
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias dev="cd ~/dev"
+alias ws="cd ~/workspaces"
+alias dotfiles="cd ~/dotfiles"
+
+# ============================================
+# GIT
+# ============================================
+alias g="git"
+alias gs="git status"
+alias ga="git add"
+alias gaa="git add --all"
+alias gc="git commit"
+alias gcm="git commit -m"
+alias gca="git commit --amend"
+alias gco="git checkout"
+alias gcb="git checkout -b"
+alias gd="git diff"
+alias gds="git diff --staged"
+alias gl="git log --oneline -10"
+alias gla="git log --oneline --all --graph"
+alias gp="git push"
+alias gpu="git push -u origin HEAD"
+alias gpf="git push --force-with-lease"
+alias gpl="git pull"
+alias gb="git branch"
+alias gba="git branch -a"
+alias gbd="git branch -d"
+alias gst="git stash"
+alias gstp="git stash pop"
+alias gstl="git stash list"
+alias grb="git rebase"
+alias grbi="git rebase -i"
+alias gm="git merge"
+alias gf="git fetch"
+alias gfa="git fetch --all"
+alias gr="git remote -v"
+alias lg="lazygit"
+
+# ============================================
+# DOCKER
+# ============================================
+alias d="docker"
+alias dc="docker compose"
+alias dcu="docker compose up -d"
+alias dcd="docker compose down"
+alias dcr="docker compose restart"
+alias dcl="docker compose logs -f"
+alias dps="docker ps"
+alias dpsa="docker ps -a"
+alias di="docker images"
+alias drm="docker rm"
+alias drmi="docker rmi"
+alias dprune="docker system prune -af"
+
+# ============================================
+# MODERN REPLACEMENTS
+# ============================================
+
+# Custom aliases for enhanced file listing with eza
+
+# Basic ls replacement with eza
+alias ls='eza -lh --group-directories-first --icons=auto'
+
+# List all files (including hidden)
+alias lsa='eza -la'
+
+# Long listing format (equivalent to ls -l)
+alias ll='eza -lha --group-directories-first --icons=auto'
+
+# Tree view with git status
+alias lt='eza --tree --level=2 --long --icons --git'
+
+# Tree view with all files (including hidden)
+alias lta='lt -a'
+
+# Enhanced file finder with preview using fzf and bat
+alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+
+# ============================================
+# SHORTCUTS
+# ============================================
+alias c="code ."
+alias zshrc="code ~/.zshrc"
+alias aliases="code ~/.aliases"
+# compinit's full check first: a new shell reuses the completion dump for a
+# day, so a tool installed since then gets its Tab completion on reload.
+alias reload="compinit && source ~/.zshrc"
+alias path='echo $PATH | tr ":" "\n"'
+alias ip="curl -s ifconfig.me"
+alias ports="lsof -i -P -n | grep LISTEN"
+
+# Platform-specific: local IP address
+case "$(uname -s)" in
+    Darwin) alias localip="ipconfig getifaddr en0" ;;
+    Linux)  alias localip="hostname -I | awk '{print \$1}'" ;;
+esac
+
+# ============================================
+# BREW
+# ============================================
+alias brewup="brew update && brew upgrade && brew cleanup"
+# Dumps what brew has installed to the state folder, to compare against the
+# Brewfile.
+brewdump() {
+	local dir="${XDG_STATE_HOME:-$HOME/.local/state}/brew"
+	mkdir -p "$dir" && brew bundle dump --file="$dir/Brewfile.dump" --force
+}
+
+# ============================================
+# TMUX
+# ============================================
+alias tdn="tmux new-session -d -s dev 2>/dev/null; tmux attach -t dev"
+alias tda="tmux attach -t dev"
+
+# ============================================
+# AI
+# ============================================
+alias cc='claude'
+
+# ============================================
+# LOCAL
+# ============================================
+# This machine's own aliases (never committed). A missing file is skipped.
+[ -r ~/.aliases.local ] && source ~/.aliases.local

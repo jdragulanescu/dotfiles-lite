@@ -1,0 +1,7 @@
+# No [user] here: each machine sets its name and email in ~/.gitconfig.local,
+# so a work machine commits with the work identity.
+
+# This machine's own settings (never committed), last so they win. A missing
+# file is skipped.
+[include]
+	path = ~/.gitconfig.local

@@ -1,0 +1,100 @@
+# Ghostty's settings. `ghostty +show-config --default --docs` lists every option
+# and its default; https://ghostty.org/docs/config explains each one.
+
+# Font
+font-family = JetBrainsMono Nerd Font
+font-size = 14
+font-feature = calt
+font-feature = liga
+adjust-cell-height = 2
+
+# Window
+background-opacity = 0.85
+background-blur = 20
+window-padding-x = 10
+window-padding-y = 10
+# Spreads the space left over by a window that isn't a whole number of cells
+# evenly on all four sides, not only at the bottom and right.
+window-padding-balance = true
+resize-overlay = never
+
+# Tabs
+#
+# `tabs` puts the tab bar in the titlebar. macOS 26 draws the tabs grey whatever
+# the style: `transparent` only adds a title row above the same tab bar.
+# Don't set `window-decoration = false`: on macOS it also turns tabs off.
+macos-titlebar-style = tabs
+
+# The tab titles in the terminal's font, and no close/minimise/zoom buttons, so
+# the tab bar starts at the left edge (Cmd+W and Cmd+M still work).
+window-title-font-family = JetBrainsMono Nerd Font
+macos-window-buttons = hidden
+
+# Quitting saves every window, tab and split, and the next launch opens them
+# again, each in its folder (that part needs the shell integration). Running
+# programs are not restarted.
+window-save-state = always
+
+# Cursor
+cursor-style = block
+cursor-style-blink = true
+
+# Clipboard
+#
+# Selecting text copies it to the system clipboard too, so Cmd+V pastes it
+# with no Cmd+C. Each selection replaces what was copied before.
+copy-on-select = clipboard
+
+# Theme (colors defined in themes/aura)
+theme = aura
+
+# Reduce dimming of unfocused splits (default 0.75)
+unfocused-split-opacity = 0.95
+
+# SSH
+#
+# Ghostty sets TERM=xterm-ghostty, which hosts without its terminfo reject:
+# `clear` fails and zsh's line editor garbles the prompt. `ssh-terminfo` installs
+# the terminfo on each host on first connect; `ssh-env` falls back to
+# xterm-256color where that install can't happen. Both work through the `ssh`
+# wrapper of the shell integration, so they need it loaded in the local shell.
+shell-integration-features = ssh-terminfo,ssh-env
+
+# Quick terminal (drop-down scratch terminal, separate from normal windows)
+#
+# `global:` makes the hotkey fire even when Ghostty is unfocused; on macOS this
+# requires Accessibility permission, which Ghostty prompts for on first launch.
+#
+# ctrl+space is deliberately avoided: macOS binds it to "select previous input
+# source" (symbolic hotkey 60), so a global grab there would break input switching.
+#
+# The trigger is the literal § codepoint rather than a physical key name, so it
+# follows the key that actually prints § instead of a US-layout key position.
+keybind = global:cmd+§=toggle_quick_terminal
+
+# Size is "primary axis,secondary axis" — with position = top that reads as
+# height then width. Without the second value the width would be maximised edge
+# to edge. Values take `%` or `px` and may be mixed; a bare number is a config
+# error.
+quick-terminal-size = 45%,75%
+
+# Background / daemon behaviour
+#
+# The quick terminal hotkey above is a global grab owned by the Ghostty process,
+# so it only fires while Ghostty is running — add Ghostty to Login Items to have
+# that be true from a cold boot. `initial-window = false` stops that login launch
+# from throwing a window in your face: Ghostty comes up windowless and waits for
+# the hotkey (or a dock/Spotlight activation, which opens a normal window).
+initial-window = false
+
+# Closing the last window leaves Ghostty running in the background so the quick
+# terminal stays armed. This is already the macOS default; pinned here because
+# the whole setup above depends on it.
+quit-after-last-window-closed = false
+
+# Local
+#
+# This machine's own settings (never committed), last so they win. `?` skips a
+# missing file; the `~/` path keeps Ghostty from resolving it beside the linked
+# file, inside the repo.
+config-file = ?~/.config/ghostty/config.local
