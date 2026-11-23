@@ -27,8 +27,12 @@ Before you edit a file in a repo, read that repo's rule files (`CLAUDE.md`,
 stops an edit until you have.
 
 `/work <Jira key or idea>` is the way into any piece of work; `/meta` sets up a
-project. Docs a person reads are single HTML pages (`writing-html-docs`); docs an
-agent reads are Markdown (`writing-for-agents`).
+project.
+
+Docs a person reads are single HTML pages written with the `writing-html-docs`
+skill: in a metarepo, under `docs/guides/`; in a team repo, follow the format its
+docs already use. Docs an agent reads are Markdown, written with
+`writing-for-agents`.
 
 ## Evidence, not effort
 

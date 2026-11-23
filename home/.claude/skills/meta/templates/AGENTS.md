@@ -26,7 +26,7 @@ makes you read the repo's own rule files before your first edit there.
 | The words of the domain | `GLOSSARY.md` |
 | A decision that outlives one epic | `docs/adr/NNNN-<slug>.md` |
 | E2E journeys that cross repos | `e2e/<area>/<journey>` |
-| Docs for people | `docs/guides/<name>.html` |
+| Docs for people: `project.html` is the overview | `docs/guides/<name>.html`, written with the `writing-html-docs` skill |
 
 ## Models
 

@@ -23,7 +23,8 @@ names, statuses) goes in the metarepo, never in a skill or in `~/.claude`.
 Three uses:
 
 - `/meta` in an empty project folder, or a folder of clones: **New**, all steps.
-- `/meta add <repo URL>` in a metarepo: steps 4 and 5 for that repo only, then 7.
+- `/meta add <repo URL>` in a metarepo: steps 4 and 5 for that repo only, then
+  update `docs/guides/project.html` with "writing-html-docs", then 8.
 - `/meta check` in a metarepo: step 2 only, and fix `jira.md` and `gitlab.md`.
 
 ## 1. Ask
@@ -101,14 +102,25 @@ cut it.
 
 **Done when** each repo has its note and its testing section.
 
-## 6. Show and publish
+## 6. Write the guide for people
+
+Call the Skill tool with "writing-html-docs" to write `docs/guides/project.html`:
+what the project is for, each repo and how they talk to each other (a diagram), how
+to set it up and run it, and where work starts (`/work` from `<project>-meta`).
+Take every fact from the repo notes and `testing.md`; a fact they do not hold is
+left out, never guessed.
+
+**Done when** the page opens with the project's name and every section has a source
+in the notes.
+
+## 7. Show and publish
 
 Show the user the tree and each `TODO`. Then ask before you publish, because it
 creates a repo your team can see: "Create `<group>/<project>-meta` as a private repo
 on GitLab and push?" On yes: `glab repo create <group>/<project>-meta --private`, add
 the remote, commit (`chore: set up <project>-meta`), push.
 
-## 7. Close
+## 8. Close
 
 Print what was made, each `TODO` left, and the next step: `/work <Jira key>` for a
 story, or `/work <idea>` for a new feature, both from `<project>-meta`.

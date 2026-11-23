@@ -70,6 +70,7 @@ State: <each piece of state: key, scope, lifecycle>
 Contracts: <each call between repos: route or event, request, response, errors>
 Tests: <the seams agreed for each module, and the cases specific to this feature>
 Prior art: <similar code and tests to copy from, by path>
+Guide: <docs/guides/<name>.html to write or update for people, by which story, or none>
 Changes: <dated lines, newest last, when the spec changes after stories exist>
 ```
 
@@ -80,6 +81,10 @@ result.
 
 Create the epic (`jira.md`, Create an epic). Create `tickets/<EPIC>.md` from the
 form, with Status `ready`, the decisions, and a link to the epic.
+
+A feature people must learn to use or run (a new flow, a setup, an operation) gets
+a guide for people in the metarepo's `docs/guides/`, written with the
+`writing-html-docs` skill by the story the Agent notes name.
 
 A decision that will matter after this epic (hard to undo, or surprising without its
 reason) is offered as an ADR in `docs/adr/`, its words agreed in step 3. A new domain

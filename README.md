@@ -74,6 +74,10 @@ starts in a project's metarepo:
 | `/review <MR>` | Review a change on standards, spec and security |
 | `/mr`, `/retro`, `/grilling` | Write an MR body; look back at sessions; grill a plan |
 
+- **Docs**: docs for people are single HTML pages written with `writing-html-docs`,
+  in a metarepo's `docs/guides/` (`/meta` writes `project.html`, the overview);
+  docs for agents are Markdown, written with `writing-for-agents`.
+
 - **Models**: the lead runs on the model you start Claude with. Subagents take
   `WORK_IMPLEMENTER_MODEL` (default `sonnet`), `WORK_REVIEWER_MODEL` (default
   `inherit`, the lead's) and `WORK_RESEARCH_MODEL` (default `sonnet`) from the `env`

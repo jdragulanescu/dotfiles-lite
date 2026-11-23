@@ -112,7 +112,11 @@ One line each; act only where the answer is yes:
 - A repo's setup, commands or surprises changed → its note, or `testing.md`.
 - A domain word was born or changed → `GLOSSARY.md`.
 - A hard-to-undo, surprising decision was made → offer an ADR in `docs/adr/`.
-- A doc in a repo describes behaviour this story changed → update it in that repo.
+- A doc in a repo describes behaviour this story changed → update it in that repo,
+  in the format its docs already use.
+- A guide for people in the metarepo's `docs/guides/` describes what this story
+  changed, or the epic's Agent notes name a guide → call the Skill tool with
+  "writing-html-docs" to write or update it.
 - A mistake the review caught that an earlier story's review also caught → one line in
   `AGENTS.md`'s `## Lessons`, or a check to build, named in the MR.
 
