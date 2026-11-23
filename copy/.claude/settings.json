@@ -5,6 +5,11 @@
   },
   "includeCoAuthoredBy": false,
   "cleanupPeriodDays": 90,
+  "env": {
+    "WORK_IMPLEMENTER_MODEL": "sonnet",
+    "WORK_REVIEWER_MODEL": "inherit",
+    "WORK_RESEARCH_MODEL": "sonnet"
+  },
   "permissions": {
     "allow": [
       "Bash(fd:*)",
@@ -12,7 +17,17 @@
       "Bash(ls:*)",
       "Bash(git worktree add:*)",
       "Bash(git worktree list:*)",
-      "Bash(git worktree remove:*)"
+      "Bash(git worktree remove:*)",
+      "Bash(glab mr view:*)",
+      "Bash(glab mr diff:*)",
+      "Bash(glab mr list:*)",
+      "Bash(glab repo list:*)",
+      "Bash(glab ci status:*)",
+      "Bash(acli jira workitem view:*)",
+      "Bash(acli jira workitem search:*)",
+      "Bash(jira issue view:*)",
+      "Bash(jira issue list:*)",
+      "Bash(printenv:*)"
     ],
     "deny": [
       "Bash(curl:*)",
@@ -33,6 +48,30 @@
     ],
     "additionalDirectories": [
       "~/workspaces/worktrees"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/repo-rules.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/repo-rules.sh"
+          }
+        ]
+      }
     ]
   },
   "statusLine": {

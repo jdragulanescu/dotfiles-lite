@@ -1,0 +1,58 @@
+# Every command of this metarepo. `just` lists them.
+
+project := parent_directory(justfile_directory())
+
+default:
+    @just --list
+
+# Print "<name> <remote>" for each line in AGENTS.md's Repos list
+[private]
+repos:
+    @rg --no-filename -or '$1 $2' '^- (\S+) \(.*\): \.\./\S+\. Clone from (\S+) if missing\.$' "{{ justfile_directory() }}/AGENTS.md"
+
+# Clone each repo in AGENTS.md that is missing beside this folder
+[script("bash")]
+clone:
+    set -euo pipefail
+    mkdir -p "{{ project }}/worktrees"
+    just --justfile "{{ justfile() }}" repos | while read -r name remote; do
+        if [ -d "{{ project }}/$name/.git" ]; then
+            echo "have    $name"
+        else
+            git clone "$remote" "{{ project }}/$name"
+        fi
+    done
+
+# Pull this metarepo, fetch every repo, and fast-forward each clean one on its default branch
+[script("bash")]
+sync:
+    set -euo pipefail
+    meta="{{ justfile_directory() }}"
+    if git -C "$meta" rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
+        git -C "$meta" pull --ff-only -q && echo "synced  $(basename "$meta")"
+    else
+        echo "local   $(basename "$meta") (no remote yet)"
+    fi
+    just --justfile "{{ justfile() }}" repos | while read -r name _; do
+        dir="{{ project }}/$name"
+        [ -d "$dir/.git" ] || { echo "missing $name (run just clone)"; continue; }
+        git -C "$dir" fetch --prune -q
+        default=$(git -C "$dir" symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')
+        branch=$(git -C "$dir" branch --show-current)
+        if [ "$branch" = "$default" ] && [ -z "$(git -C "$dir" status --porcelain)" ]; then
+            git -C "$dir" merge --ff-only -q "origin/$default" && echo "synced  $name"
+        else
+            echo "fetched $name (on $branch, or has changes: left as it is)"
+        fi
+    done
+
+# Show the branch, changes and worktrees of every repo
+[script("bash")]
+status:
+    set -euo pipefail
+    just --justfile "{{ justfile() }}" repos | while read -r name _; do
+        dir="{{ project }}/$name"
+        [ -d "$dir/.git" ] || { echo "$name: missing"; continue; }
+        echo "$name: $(git -C "$dir" status -sb | head -1), $(git -C "$dir" status --porcelain | wc -l | tr -d ' ') changed"
+        git -C "$dir" worktree list | tail -n +2 | sed 's/^/    /'
+    done

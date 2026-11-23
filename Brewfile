@@ -36,3 +36,9 @@ brew "direnv"                     # Loads a folder's .envrc on cd
 # Agents
 cask "claude-code"                # Claude Code CLI
 brew "herdr"                      # Agent multiplexer
+
+# Work workflow (the skills in home/.claude/skills)
+tap "atlassian/homebrew-acli"
+brew "atlassian/homebrew-acli/acli" # Jira Cloud CLI; for a self-hosted Jira, brew install jira-cli
+brew "agent-browser"              # Drives a browser for walkthroughs and videos
+brew "ffmpeg"                     # Joins the before and after videos

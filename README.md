@@ -52,6 +52,41 @@ Then restart the terminal. If zsh is not the login shell yet, run
 Set `DOTFILES_TARGET` to a temporary folder to try `link`, `check` or
 `unlink` without touching the real home.
 
+## Work workflow
+
+Skills for work in Claude Code, in `home/.claude/skills/`. Every piece of work
+starts in a project's metarepo:
+
+```
+~/dev/<project>/
+  <project>-meta/          start every session here: repo list, Jira and GitLab
+                           commands, testing doc, repo notes, ticket notes, e2e
+  <repo>/ …                each repo of the project, beside it
+  worktrees/<repo>/<KEY>/  one worktree for each story and repo
+```
+
+| Command | Does |
+| --- | --- |
+| `/meta` | Set up a project's metarepo: clone its repos and write a note for each |
+| `/work <KEY or idea>` | The way in: read a Jira item, research the code, grill you on the gaps, then build it; an idea goes to a spec and stories |
+| `/spec`, `/stories` | Write a Jira epic (the spec), and cut it into stories, each one finished thing a user can do |
+| `/implement <KEY>` | Build a story: the lead plans steps, subagents build them, then tests, review, a before-and-after video and one MR for each repo |
+| `/review <MR>` | Review a change on standards, spec and security |
+| `/mr`, `/retro`, `/grilling` | Write an MR body; look back at sessions; grill a plan |
+
+- **Models**: the lead runs on the model you start Claude with. Subagents take
+  `WORK_IMPLEMENTER_MODEL` (default `sonnet`), `WORK_REVIEWER_MODEL` (default
+  `inherit`, the lead's) and `WORK_RESEARCH_MODEL` (default `sonnet`) from the `env`
+  of `~/.claude/settings.json`; a metarepo's `.claude/settings.json` overrides them.
+- **Repo rules**: `home/.claude/hooks/repo-rules.sh` stops an edit until the agent has
+  read the repo's `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING.md` and the like.
+- **Jira**: `acli` for Jira Cloud, or `brew install jira-cli` for a self-hosted Jira.
+  Each metarepo's `docs/agents/jira.md` has `TODO` lines for what only the team's
+  process settles: statuses, the epic and story layout, the body format.
+
+`copy/.claude/settings.json` is copied only when `~/.claude/settings.json` is
+missing. On a machine that has one, add its `env` and `hooks` by hand.
+
 ## Where a change goes
 
 | Change | Goes in |
